@@ -24,15 +24,22 @@ print("Number of vertices:", n_vertices)
 print("Vertex labels:", vlabels)
 print("Edges:", edges)
 
+#get the coordinates from coords file
+xcoords = []
+ycoords = []
+
+for a in c1:
+    newx = a.split()[1]
+    newy = a.split()[2]
+    xcoords.append(float(newx))
+    ycoords.append(float(newy))
+
 #create graph and vertex labels
 g = ig.Graph(edges)
 g.vs["name"] = vlabels
-g.vs["x"] = []
-g.vs["y"] = []
-
-for x in c1:
-    g.vs["x"].append(float(x.split()[1]))
-    g.vs["y"].append(float(x.split()[2]))
+g.vs["x"] = xcoords
+g.vs["y"] = ycoords
+layout = ig.Layout(zip(xcoords, ycoords))
 
 print("X coordinates:", g.vs["x"])
 print("Y coordinates:", g.vs["y"])
@@ -42,9 +49,10 @@ fig, ax = plt.subplots(figsize=(n_vertices, n_vertices))
 ig.plot(
     g,
     target=ax,
-    layout="circle",
+    layout=layout,
     vertex_size=30,
     vertex_label=g.vs["name"],
+    vertex_coords=list(zip(g.vs["x"], g.vs["y"])),
     vertex_color="lightblue",
     edge_color="gray",
 )
