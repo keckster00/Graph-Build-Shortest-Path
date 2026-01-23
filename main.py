@@ -73,5 +73,6 @@ startingNode = input()
 print("Goal node: ", end="")
 goalNode = input()
 
-aStar(startingNode, plt)
+aStar(startingNode, goalNode, plt, g) 
+
 
