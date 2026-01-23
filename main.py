@@ -1,5 +1,9 @@
 import igraph as ig
 import matplotlib.pyplot as plt
+from aStar import aStar
+
+#interactive mode so script doesn't stall at plt.show()
+plt.ion()
 
 #open files
 g1 = open("graph.txt", "r")
@@ -34,6 +38,9 @@ for a in c1:
     xcoords.append(float(newx))
     ycoords.append(float(newy))
 
+g1.close()
+c1.close()
+
 #create graph and vertex labels
 g = ig.Graph(edges)
 g.vs["name"] = vlabels
@@ -57,4 +64,14 @@ ig.plot(
     edge_color="gray",
 )
 
-plt.show()
+plt.draw()
+plt.pause(0.1)
+
+print("Graph plotted successfully.")
+print("Starting node: ", end="")
+startingNode = input()
+print("Goal node: ", end="")
+goalNode = input()
+
+aStar(startingNode, plt)
+
