@@ -1,3 +1,4 @@
+from time import sleep
 import igraph as ig
 import matplotlib.pyplot as plt
 from aStar import aStar
@@ -13,6 +14,7 @@ c1 = open("coords.txt", "r")
 n_vertices = 0
 vlabels = []
 edges = []
+obstacles = []
 
 #for each line in graph file, create vertices and edges
 #if an edge already exists, do not add it again
@@ -46,6 +48,7 @@ g = ig.Graph(edges)
 g.vs["name"] = vlabels
 g.vs["x"] = xcoords
 g.vs["y"] = ycoords
+g.vs["color"] = "lightblue"
 layout = ig.Layout(zip(xcoords, ycoords))
 
 print("X coordinates:", g.vs["x"])
@@ -60,7 +63,7 @@ ig.plot(
     vertex_size=30,
     vertex_label=g.vs["name"],
     vertex_coords=list(zip(g.vs["x"], g.vs["y"])),
-    vertex_color="lightblue",
+    vertex_color=g.vs["color"],
     edge_color="gray",
 )
 
@@ -73,6 +76,36 @@ startingNode = input()
 print("Goal node: ", end="")
 goalNode = input()
 
-aStar(startingNode, goalNode, plt, g) 
+print("How many obstacles? ", end="")
+obstacleNum = int(input())
 
+if obstacleNum > 0:
+    print("Enter obstacle ids separated by a space: ", end="")
+    obstacleList = input().split()
+    for obs in obstacleList:
+        obstacleNode = g.vs.find(name=obs)
+        obstacleNode["color"] = "red"
+        obstacles.append(obs)
 
+# Clear and redraw the graph with updated colors
+ax.clear()
+ig.plot(
+    g,
+    target=ax,
+    layout=layout,
+    vertex_size=30,
+    vertex_label=g.vs["name"],
+    vertex_coords=list(zip(g.vs["x"], g.vs["y"])),
+    vertex_color=g.vs["color"],
+    edge_color="gray",
+)
+
+plt.draw()
+plt.pause(0.1)
+print("Obstacle nodes marked in red.")
+
+#path = aStar(startingNode, goalNode, plt, g, obstacles)
+aStar(startingNode, goalNode, plt, g, obstacles)
+# Keep the script running and the plot window open
+print("Press Enter to close the graph...")
+input()
