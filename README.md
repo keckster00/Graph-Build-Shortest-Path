@@ -17,15 +17,25 @@ How to run:
 7. Watch the program run!
 
 The graph.txt file is a list of integers for the nodes and their neighbor nodes
+
 1 2 3 5
+
 2 1 4
+
 3 1 4 5
+
 4 2 3 
+
 5 1 3
+
 (Ie. 1 is connected to 2, 3 and 5, 2 is connected to 1 and 4 etc.)
 
 
 The coords.txt file is the x and y coordinates of each node
+
 1 1.50 2.54
+
 2 3.2 3.33
+
 3 1.3 0.0
+
