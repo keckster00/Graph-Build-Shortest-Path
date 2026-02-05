@@ -1,4 +1,3 @@
-from time import sleep
 import igraph as ig
 import matplotlib.pyplot as plt
 from aStar import aStar
@@ -76,6 +75,9 @@ startingNode = input()
 print("Goal node: ", end="")
 goalNode = input()
 
+g.vs.find(name=startingNode)["color"] = "green"
+g.vs.find(name=goalNode)["color"] = "orange"
+
 print("How many obstacles? ", end="")
 obstacleNum = int(input())
 
@@ -104,8 +106,21 @@ plt.draw()
 plt.pause(0.1)
 print("Obstacle nodes marked in red.")
 
-#path = aStar(startingNode, goalNode, plt, g, obstacles)
-aStar(startingNode, goalNode, plt, g, obstacles)
+path = aStar(startingNode, goalNode, g, obstacles)
+#aStar(startingNode, goalNode, plt, g, obstacles)
+
+for i in range(len(path)-1):
+    nodeA = g.vs.find(name=path[i])
+    nodeB = g.vs.find(name=path[i+1])
+    ax.plot(
+        [nodeA["x"], nodeB["x"]],
+        [nodeA["y"], nodeB["y"]],
+        color="green",
+        linewidth=4
+    )
+    plt.draw()
+    plt.pause(0.5)
+
 # Keep the script running and the plot window open
 print("Press Enter to close the graph...")
 input()
