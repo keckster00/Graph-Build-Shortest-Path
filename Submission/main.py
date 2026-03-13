@@ -6,8 +6,8 @@ from aStar import aStar
 plt.ion()
 
 #open files
-g1 = open("graph2.txt", "r")
-c1 = open("coords2.txt", "r")
+g1 = open("graph.txt", "r")
+c1 = open("coords.txt", "r")
 
 #set variables
 n_vertices = 0
